@@ -19,6 +19,10 @@ app.listen(port, ()=> {
     console.log(`Server is running on port ${port}`);
 });
 
+// Home
+router.get('/', (req, res)=> {
+    res.status(200).send("Well done Bulelani");
+})
 // User registration
 router.post('/register', bodyParser.json(), async (req, res)=> {
     const bd = req.body; 
