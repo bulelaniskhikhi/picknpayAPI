@@ -10,7 +10,7 @@ const app = express();
 // Express router
 const router = express.Router();
 // Configuration 
-const port = parseInt(process.env.Port) || 4000;
+const port = parseInt(process.env.PORT) || 4000;
 app.use(router, cors(), express.json(), express.urlencoded({
     extended: true
 }));
@@ -68,12 +68,12 @@ router.post('/products', bodyParser.json(), (req, res)=> {
     // Query
     const strQry = 
     `
-    INSERT INTO products(prodName, prodUrl, quantity, price, totalamount, dateCreated)
-    VALUES(?, ?, ?, ?, ?, ?);
+    INSERT INTO products(prodName, prodCode,prodAmount, quantity, price, totalamount, prodImg)
+    VALUES(?, ?, ?, ?, ?, ?, ?);
     `;
     //
     db.query(strQry, 
-        [bd.prodName, bd.prodUrl, bd.quantity, bd.price, bd.totalamount, bd.dateCreated],
+        [bd.prodName, bd.prodCode, bd.prodAmount, bd.quantity, bd.price, bd.totalamount, bd.prodImg],
         (err, results)=> {
             if(err) throw err;
             res.send(`number of affected row/s: ${results.affectedRows}`);
@@ -84,7 +84,7 @@ router.get('/products', (req, res)=> {
     // Query
     const strQry = 
     `
-    SELECT id, prodName,prodUrl, quantity, price, totalamount, dateCreated, userid
+    SELECT id, prodName, prodCode,prodAmount, quantity, price, totalamount, prodImg
     FROM products;
     `;
     db.query(strQry, (err, results)=> {
@@ -129,7 +129,7 @@ router.put('/products', bodyParser.json(), (req, res)=> {
 });
 
 // Delete product
-router.delete('/clinic/:id', (req, res)=> {
+router.delete('/products/:id', (req, res)=> {
     // Query
     const strQry = 
     `
